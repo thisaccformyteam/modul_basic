@@ -9,9 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}"
+            "program": "golang"
         }
-    ],
-    "author":"team5",
-    "class":"ltmt3",
+    ]
 }
