@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <!--hiển thị hai nút bấm là  một cái chuyển đến trang thêm mới và một cái dùng để xóa đối tượng -->
+        <div class="header"><a href="insert.html">thêm liên lạc</a>
+
+            <button class="del_bnt">Xóa</button>
+
+        </div>
+        <section>
+            <!--truy vấn; hiện tại dùng để truy vấn theo tên và trạng thái của đối tượng-->
+            <div class="truy_van">
+                <input type="text" class="find_by_name" placeholder="tên tìm kiếm">
+                <select name="find_by_state">
+                    <option value=""></option>
+                    <option value="thụ động">Thụ động</option>
+                    <option value="đang mở">đang mở</option>
+                    <option value="đã phản hồi">đã phản hồi</option>
+                </select>
+            </div>
+            <div>
+                <table class="content">
+                    <!-- 
+                hiển thị dữ liệu ở đây 
+                fomat hiện tại mặc định sẽ là 
+                <a href="edit.html?id=?"> thông tin của đối tượng </a>
+            -->
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
