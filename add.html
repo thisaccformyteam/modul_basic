@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>insert</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!--`name` varchar(50) NOT NULL,-- ten
+  `address` varchar(50) NOT NULL,-- diachi
+  `gender` varchar(50) NOT NULL,-- gioitinh
+  `company` varchar(50) DEFAULT NULL,-- congty 
+  `state` varchar(50) NOT NULL,-- trangthai
+  `email` varchar(50) NOT NULL, -- Email liên lạc
+  `phone` int(10) NOT NULL,-- sdt
+  `department` varchar(50) NOT NULL,-- phongban
+  `position` varchar(50) DEFAULT NULL,-- chucvu
+  `inserttime` date NOT NULL,-- thoigianthem
+  `updatetime` date DEFAULT NULL-- thoigiancapnhat
+  
+  FORM CÓ THỂ ĐỔI SANG TABLE CHO DỄ DÙNG -->
+ <div class="error_text">
+<!-- hiển thị thông tin xem có thể xem có lỗi hay không hoặc đã thêm vào hay chưa-->
+ </div> 
+  <button class="sumbit"> lưu</button>
+    <form style="display: flex;flex-direction: column;">
+        <label for="name">tên liên lạc</label>
+        <input type="text" name="name" id="name" required>
+        <label for="address">địa chỉ</label>
+        <input type="text" name="address" id="address">
+        <label for="gender">giới tính</label>
+        <input type="radio" name="gender" value="nam" id="gender">nam
+        <input type="radio" name="gender" value="nu" id="gender">nữ
+        <input type="radio" name="gender" value="other" id="gender"> other
+        <label for="company">tên công ty</label>
+        <input type="text" name="company" id="company">
+        <label for="state">trạng thái</label>
+        <select name="state" id="state">
+            <option value="thụ động">Thụ động</option>
+            <option value="đang mở">đang mở</option>
+            <option value="đã phản hồi">đã phản hồi</option>
+        </select>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
+        <label for="phone">điện thoại</label>
+        <input type="tel" name="tel" id="tel">
+        <label for="department">Phòng ban</label>
+        <input type="text" name="department" id="department">
+        <label for="position">Chức vụ</label>
+        <input type="text">
+    </form>
+  
+</body>
+
+</html>
