@@ -60,7 +60,7 @@ func dbInsert(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "vui lòng nhập tên liên lạc")
 		return
 	}
-	query := "INSERT INTO `lienlac`( `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`, `inserttime`) VALUES ('" + name + "','" + address + "','" + gender + "','" + company + "','" + state + "','" + email + "','" + tel + "','" + department + "','" + position + "','" + formattedTime + "')"
+	query := "INSERT INTO `lienlac`( `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`, `inserttime`,`updatetime`) VALUES ('" + name + "','" + address + "','" + gender + "','" + company + "','" + state + "','" + email + "','" + tel + "','" + department + "','" + position + "','" + formattedTime + "','" + formattedTime + "')"
 	fmt.Println(query)
 	_, err := conn.Exec(query)
 	if err != nil {
@@ -86,13 +86,13 @@ func fetchData(w http.ResponseWriter, r *http.Request) {
 	html := ""
 	for rows.Next() {
 		var id int
-		var name, state, email, inserttime string
-		if err := rows.Scan(&id, &name, &email, &state, &inserttime); err != nil {
+		var name, state, email, updatetime string
+		if err := rows.Scan(&id, &name, &email, &state, &updatetime); err != nil {
 			log.Printf("Lỗi khi đọc dữ liệu từ hàng: %v", err)
 			http.Error(w, "Lỗi khi đọc dữ liệu", http.StatusInternalServerError)
 			return
 		}
-		html += fmt.Sprintf(`<div style="display: flex;" > <input type="checkbox" name="del" value="%d"> <a style="display: flex;" href="edit.html?id=%d"><p>%s</p><p>%s</p><p>%s</p><p>%s</p></a></div>`, id, id, name, email, state, inserttime)
+		html += fmt.Sprintf(`<div style="display: flex;" > <input type="checkbox" name="del" value="%d"> <a style="display: flex;" href="edit.html?id=%d"><p>%s</p><p>%s</p><p>%s</p><p>%s</p></a></div>`, id, id, name, email, state, updatetime)
 	}
 
 	if rows.Err() != nil {
