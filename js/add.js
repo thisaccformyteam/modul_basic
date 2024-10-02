@@ -1,6 +1,6 @@
 const form=document.querySelector("form"),
 errTxt=document.querySelector(".error_text"),
-btn=document.querySelector("#sumbit");
+btn=document.querySelector("#submit");
 
 form.onsubmit=(e)=>{
     e.preventDefault();
