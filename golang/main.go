@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "html/template"
+	"io"
 	"log"
 	"net/http"
 	"time"
@@ -103,6 +104,31 @@ func fetchData(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprint(w, html)
 }
+
+// hàm xóa dữ liệu getgo!!
+func deletedb(w http.ResponseWriter, r *http.Request) {
+	enableCORS(w)
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		fmt.Fprint(w, "đầu vào func delete bị lỗi")
+	}
+	id := string(body)
+	query := "DELETE FROM lienlac WHERE id IN (" + id + ")"
+	fmt.Println(query)
+	_, err = conn.Exec(query)
+	if err != nil {
+		fmt.Fprint(w, "truy vẫn lỗi")
+		return
+	}
+	fmt.Fprint(w, "xóa thành công")
+}
+
+// tìm kiếm dữ liệu
+func hind_data(w http.ResponseWriter, r *http.Request) {
+	enableCORS(w)
+	w.Header().Set("Content-Type", "text/paint")
+
+}
 func main() {
 	defer conn.Close()
 	//api insert data
@@ -111,8 +137,12 @@ func main() {
 	http.HandleFunc("/options", func(w http.ResponseWriter, r *http.Request) {
 		enableCORS(w)
 	})
+	//api xóa dl
+	http.HandleFunc("/deletedb", deletedb)
 	//api fetchdata
 	http.HandleFunc("/fetchData", fetchData)
+	//api truy vấn dữ liệu
+	http.HandleFunc("/hind_data", hind_data)
 	//cho sever chạy trên localhost:8000
 	log.Println("Server đang chạy tại http://localhost:8000")
 	log.Fatal(http.ListenAndServe(":8000", nil))
