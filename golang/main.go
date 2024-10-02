@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	_ "html/template"
 	"log"
 	"net/http"
 	"time"
@@ -70,6 +71,38 @@ func dbInsert(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "thêm dữ liệu thành công")
 }
 
+// hàm này dùng để hiển thị dữ liệu đã được định dạng ở index
+func fetchData(w http.ResponseWriter, r *http.Request) {
+	enableCORS(w)
+	w.Header().Set("Content-Type", "text/paint")
+	rows, err := conn.Query("SELECT id,name,email,state,inserttime FROM lienlac")
+	if err != nil {
+		log.Println("Lỗi truy vấn dữ liệu")
+		http.Error(w, "Lỗi truy vấn dữ liệu", http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+	//tạo chuỗi html
+	html := ""
+	for rows.Next() {
+		var id int
+		var name, state, email, inserttime string
+		if err := rows.Scan(&id, &name, &email, &state, &inserttime); err != nil {
+			log.Printf("Lỗi khi đọc dữ liệu từ hàng: %v", err)
+			http.Error(w, "Lỗi khi đọc dữ liệu", http.StatusInternalServerError)
+			return
+		}
+		html += fmt.Sprintf(`<div style="display: flex;" > <input type="checkbox" name="del" value="%d"> <a style="display: flex;" href="edit.html?id=%d"><p>%s</p><p>%s</p><p>%s</p><p>%s</p></a></div>`, id, id, name, email, state, inserttime)
+	}
+
+	if rows.Err() != nil {
+		log.Printf("Lỗi khi duyệt kết quả: %v", rows.Err())
+		http.Error(w, "Lỗi duyệt dữ liệu", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprint(w, html)
+}
 func main() {
 	defer conn.Close()
 	//api insert data
@@ -78,6 +111,8 @@ func main() {
 	http.HandleFunc("/options", func(w http.ResponseWriter, r *http.Request) {
 		enableCORS(w)
 	})
+	//api fetchdata
+	http.HandleFunc("/fetchData", fetchData)
 	//cho sever chạy trên localhost:8000
 	log.Println("Server đang chạy tại http://localhost:8000")
 	log.Fatal(http.ListenAndServe(":8000", nil))
