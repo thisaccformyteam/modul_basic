@@ -30,13 +30,13 @@ SET time_zone = "+00:00";
 CREATE TABLE `lienlac` (
   `id` int(11) NOT NULL,     -- Mã liên lạc 
   `name` varchar(50) NOT NULL,-- ten
-  `address` varchar(50) NOT NULL,-- diachi
+  `address` varchar(50) DEFAULT NULL,-- diachi
   `gender` varchar(50) NOT NULL,-- gioitinh
   `company` varchar(50) DEFAULT NULL,-- congty 
   `state` varchar(50) NOT NULL,-- trangthai
-  `email` varchar(50) NOT NULL, -- Email liên lạc
-  `phone` int(10) NOT NULL,-- sdt
-  `department` varchar(50) NOT NULL,-- phongban
+  `email` varchar(50) DEFAULT NULL, -- Email liên lạc
+  `phone` int(10) DEFAULT NULL,-- sdt
+  `department` varchar(50)  NULL,-- phongban
   `position` varchar(50) DEFAULT NULL,-- chucvu
   `inserttime` date NOT NULL,-- thoigianthem
   `updatetime` date DEFAULT NULL-- thoigiancapnhat
