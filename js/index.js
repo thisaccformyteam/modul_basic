@@ -2,7 +2,7 @@ const content=document.querySelector(".content"),
 name_hind=document.querySelector(".find_by_name"),
 state_hind=document.querySelector(".find_by_state"),
 del= document.querySelector(".del_bnt");
-
+//lấy dữ liệu
 fetchData()
 
 del.onclick=()=>{
@@ -23,9 +23,16 @@ function hindingdata(){
     }
     else{ 
          console.log("name:"+name+" stat:"+state)
-     fetch("http://localhost:8000/fetchData?name="+name+"&state="+state,{method:"POST"})
-     .then(x=>x.text())
-     .then(data=>{content.innerHTML=""})
+          // Tạo FormData để gửi dữ liệu
+        let formData = new FormData();
+        formData.append("name", name);
+        formData.append("state", state);
+
+     fetch("http://localhost:8000/hinddata",{method:"POST",body:formData})
+     .then(response=>response.text())
+     .then(data=>{
+        content.innerHTML=data}
+    )
      .catch(err=>{console.error("wrong!!in hinding:"+err)});
     }
 }
