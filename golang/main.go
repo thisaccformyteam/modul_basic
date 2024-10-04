@@ -77,7 +77,9 @@ func dbInsert(w http.ResponseWriter, r *http.Request) {
 func fetchData(w http.ResponseWriter, r *http.Request) {
 	enableCORS(w)
 	w.Header().Set("Content-Type", "text/paint")
-	rows, err := conn.Query("SELECT id,name,email,state,updatetime FROM lienlac")
+	limit := r.FormValue("limit")
+	//hiển thị kết quả mới nhất và có giới hạn
+	rows, err := conn.Query("SELECT id,name,email,state,updatetime FROM lienlac ORDER BY id DESC limit ?", limit)
 	if err != nil {
 		log.Println("Lỗi truy vấn dữ liệu")
 		http.Error(w, "Lỗi truy vấn dữ liệu", http.StatusInternalServerError)
@@ -125,20 +127,6 @@ func deletedb(w http.ResponseWriter, r *http.Request) {
 }
 
 // đếm số bản trả về
-// func checkRowCount(db *sql.DB, query string) (int, error) {
-// 	var count int
-
-// 	// Điều chỉnh query để sử dụng COUNT(*)
-// 	countQuery := fmt.Sprintf("SELECT COUNT(*) FROM (%s) AS subquery", query)
-
-// 	// Thực thi truy vấn để đếm số hàng
-// 	err := db.QueryRow(countQuery).Scan(&count)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-
-// 	return count, nil
-// }
 
 // tìm kiếm dữ liệu
 func hinddata(w http.ResponseWriter, r *http.Request) {
@@ -150,7 +138,7 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 	var query string
 	var rows *sql.Rows
 	var err error
-
+	count := 0
 	if namehind == "" {
 		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE state LIKE ?"
 		rows, err = conn.Query(query, "%"+statess+"%")
@@ -171,6 +159,7 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 	var requestText string = ""
 
 	for rows.Next() {
+		count++
 		var id int
 		var name, state, email, updatetime string
 		// Quét các cột trong hàng hiện tại vào biến
@@ -187,7 +176,9 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 				</a>
 			</div>`, id, id, name, email, state, updatetime)
 	}
-
+	if count == 0 {
+		requestText += `<a href="add.html">không thấy kết quả bạn có muốn thêm liên lạc?</a>`
+	}
 	fmt.Println(requestText)
 	// Trả về kết quả HTML
 	fmt.Fprint(w, requestText)
