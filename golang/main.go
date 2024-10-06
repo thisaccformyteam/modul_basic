@@ -62,15 +62,27 @@ func dbInsert(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "vui lòng nhập tên liên lạc")
 		return
 	}
-	query := "INSERT INTO `lienlac`( `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`, `inserttime`,`updatetime`) VALUES ('" + name + "','" + address + "','" + gender + "','" + company + "','" + state + "','" + email + "','" + tel + "','" + department + "','" + position + "','" + formattedTime + "','" + formattedTime + "')"
-	fmt.Println(query)
-	_, err := conn.Exec(query)
-	if err != nil {
-		fmt.Fprint(w, "lỗi khi thêm đối tượng")
-		return
+	//kiểm tra tên liên lạc đã tồn tại hay chưa
+	var count = 0
+	checking, _ := conn.Query("SELECT id, name, email, state, updatetime FROM lienlac WHERE name LIKE ?", "%"+name+"%")
+	for checking.Next() {
+		count++
 	}
-	// khi thành công thì dòng này sẽ được trả về
-	fmt.Fprint(w, "thêm dữ liệu thành công")
+	if count > 0 {
+		fmt.Fprint(w, "đã có tên liên lạc tương tự")
+		return
+	} else {
+		query := "INSERT INTO `lienlac`( `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`, `inserttime`,`updatetime`) VALUES ('" + name + "','" + address + "','" + gender + "','" + company + "','" + state + "','" + email + "','" + tel + "','" + department + "','" + position + "','" + formattedTime + "','" + formattedTime + "')"
+		fmt.Println(query)
+		_, err := conn.Exec(query)
+		if err != nil {
+			fmt.Fprint(w, "lỗi khi thêm đối tượng")
+			return
+		}
+		// khi thành công thì dòng này sẽ được trả về
+		fmt.Fprint(w, "thêm dữ liệu thành công")
+	}
+
 }
 
 // hàm này dùng để hiển thị dữ liệu đã được định dạng ở index
