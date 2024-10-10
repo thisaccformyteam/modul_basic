@@ -9,7 +9,7 @@ var limit_data = 10;
 //lấy dữ liệu
 fetchData();
 
-//load thêm dữ liệu, nếu có !! giới hạn thêm 20 mỗi lần
+//load thêm dữ liệu, nếu có !! giới hạn hiển thị thêm 20datas mỗi lần
 more.onclick = () => {
   limit_data += 20;
   fetchData();
@@ -23,7 +23,7 @@ name_hind.onkeyup = () => {
 debounce(hindingdata);
 };
 state_hind.onclick = () => {
-  hindingdata();
+debounce(hindingdata)
 };
 
 // ờ... debouncing cho trang phần hind?

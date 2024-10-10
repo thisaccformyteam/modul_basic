@@ -158,7 +158,7 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE name LIKE ?"
 		rows, err = conn.Query(query, "%"+namehind+"%")
 	} else {
-		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE state LIKE ? AND name LIKE ?"
+		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE state LIKE ? AND name  LIKE ?"
 		rows, err = conn.Query(query, "%"+statess+"%", "%"+namehind+"%")
 	}
 
@@ -210,6 +210,7 @@ func editUser(w http.ResponseWriter, r *http.Request) {
 	err = conn.QueryRow("SELECT `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`  FROM lienlac WHERE id = ?", id).Scan(&name, &address, &gender, &company, &state, &email, &phone, &department, &position)
 	if err != nil {
 		http.Error(w, "Không tìm thấy người dùng", http.StatusNotFound)
+		fmt.Fprint(w, "không tìm thấy người dùng")
 		return
 	}
 
