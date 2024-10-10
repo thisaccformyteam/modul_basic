@@ -218,15 +218,15 @@ func editUser(w http.ResponseWriter, r *http.Request) {
 	html := `		
 	<input type="hidden" name="id" value="` + id + `">
 	 <label for="name">tên liên lạc</label>
-        <input type="text" name="name" id="name" value="` + name + ` "required>
+        <input type="text" name="name" id="name" maxlength="50" value="` + name + ` "required>
         <label for="address">địa chỉ</label>
-        <input type="text" name="address" id="address" value="` + address + `">
+        <input type="text" name="address" id="address" maxlength="50" value="` + address + `">
         <label for="gender">giới tính</label>
         <input type="radio" name="gender" value="nam" id="gender">nam
         <input type="radio" name="gender" value="nu" id="gender">nữ
         <input type="radio" name="gender" value="other" id="gender"> other
         <label for="company">tên công ty</label>
-        <input type="text" name="company" id="company" value="` + company + `">
+        <input type="text" name="company" id="company" maxlength="50" value="` + company + `">
         <label for="state">trạng thái</label>
         <select name="state" id="state">
             <option value="thụ động">Thụ động</option>
@@ -234,13 +234,13 @@ func editUser(w http.ResponseWriter, r *http.Request) {
             <option value="đã phản hồi">đã phản hồi</option>
         </select>
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="` + email + `">
+        <input type="email" name="email" id="email" maxlength="50" value="` + email + `">
         <label for="phone">điện thoại</label>
-        <input type="tel" name="tel" id="tel"value="` + phone + `">
+        <input type="tel" name="tel" pattern="[0-9]{10}" id="tel"value="` + phone + ` ">
         <label for="department">Phòng ban</label>
-        <input type="text" name="department" id="department"value="` + department + `">
+        <input type="text" name="department" id="department"  maxlength="50" value="` + department + `">
         <label for="position">Chức vụ</label>
-        <input type="text" name="position"id="position"value="` + position + `">	
+        <input type="text" name="position"id="position" maxlength="50" value="` + position + `">	
 		`
 	// Trả về trang HTML
 	w.Header().Set("Content-Type", "text/paint")
