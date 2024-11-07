@@ -29,15 +29,15 @@
     <form style="display: flex;flex-direction: column;">
         <input type="submit" id="submit" value="Lưu" class="submit">
         <label for="name">tên liên lạc</label>
-        <input type="text" name="name" id="name" required>
+        <input type="text" name="name" id="name" maxlength="50" required>
         <label for="address">địa chỉ</label>
-        <input type="text" name="address" id="address">
+        <input type="text" name="address" id="address" maxlength="50">
         <label for="gender">giới tính</label>
         <input type="radio" name="gender" value="nam" id="gender">nam
         <input type="radio" name="gender" value="nu" id="gender">nữ
         <input type="radio" name="gender" value="other" id="gender"> other
         <label for="company">tên công ty</label>
-        <input type="text" name="company" id="company">
+        <input type="text" name="company" id="company" maxlength="50">
         <label for="state">trạng thái</label>
         <select name="state" id="state">
             <option value="thụ động">Thụ động</option>
@@ -45,16 +45,16 @@
             <option value="đã phản hồi">đã phản hồi</option>
         </select>
         <label for="email">Email</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" maxlength="50">
         <label for="phone">điện thoại</label>
-        <input type="tel" name="tel" id="tel">
+        <input type="tel" name="tel" id="tel" pattern="[0-9]{10}">
         <label for="department">Phòng ban</label>
-        <input type="text" name="department" id="department">
+        <input type="text" name="department" id="department"  maxlength="50">
         <label for="position">Chức vụ</label>
-        <input type="text" name="position"id="position">
+        <input type="text" name="position"id="position"  maxlength="50">
     </form>
   
 </body>
-<script src="js/add.js?v=1"></script>
+<script  src="js/add.js?v=1"></script>
 
 </html>

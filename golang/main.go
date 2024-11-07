@@ -62,22 +62,36 @@ func dbInsert(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "vui lòng nhập tên liên lạc")
 		return
 	}
-	query := "INSERT INTO `lienlac`( `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`, `inserttime`,`updatetime`) VALUES ('" + name + "','" + address + "','" + gender + "','" + company + "','" + state + "','" + email + "','" + tel + "','" + department + "','" + position + "','" + formattedTime + "','" + formattedTime + "')"
-	fmt.Println(query)
-	_, err := conn.Exec(query)
-	if err != nil {
-		fmt.Fprint(w, "lỗi khi thêm đối tượng")
-		return
+	//kiểm tra tên liên lạc đã tồn tại hay chưa
+	var count = 0
+	checking, _ := conn.Query("SELECT id, name, email, state, updatetime FROM lienlac WHERE name LIKE ?", "%"+name+"%")
+	for checking.Next() {
+		count++
 	}
-	// khi thành công thì dòng này sẽ được trả về
-	fmt.Fprint(w, "thêm dữ liệu thành công")
+	if count > 0 {
+		fmt.Fprint(w, "đã có tên liên lạc tương tự")
+		return
+	} else {
+		query := "INSERT INTO `lienlac`( `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`, `inserttime`,`updatetime`) VALUES ('" + name + "','" + address + "','" + gender + "','" + company + "','" + state + "','" + email + "','" + tel + "','" + department + "','" + position + "','" + formattedTime + "','" + formattedTime + "')"
+		fmt.Println(query)
+		_, err := conn.Exec(query)
+		if err != nil {
+			fmt.Fprint(w, "lỗi khi thêm đối tượng")
+			return
+		}
+		// khi thành công thì dòng này sẽ được trả về
+		fmt.Fprint(w, "thêm dữ liệu thành công")
+	}
+
 }
 
 // hàm này dùng để hiển thị dữ liệu đã được định dạng ở index
 func fetchData(w http.ResponseWriter, r *http.Request) {
 	enableCORS(w)
 	w.Header().Set("Content-Type", "text/paint")
-	rows, err := conn.Query("SELECT id,name,email,state,updatetime FROM lienlac")
+	limit := r.FormValue("limit")
+	//hiển thị kết quả mới nhất và có giới hạn
+	rows, err := conn.Query("SELECT id,name,email,state,updatetime FROM lienlac ORDER BY id DESC limit ?", limit)
 	if err != nil {
 		log.Println("Lỗi truy vấn dữ liệu")
 		http.Error(w, "Lỗi truy vấn dữ liệu", http.StatusInternalServerError)
@@ -125,20 +139,6 @@ func deletedb(w http.ResponseWriter, r *http.Request) {
 }
 
 // đếm số bản trả về
-// func checkRowCount(db *sql.DB, query string) (int, error) {
-// 	var count int
-
-// 	// Điều chỉnh query để sử dụng COUNT(*)
-// 	countQuery := fmt.Sprintf("SELECT COUNT(*) FROM (%s) AS subquery", query)
-
-// 	// Thực thi truy vấn để đếm số hàng
-// 	err := db.QueryRow(countQuery).Scan(&count)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-
-// 	return count, nil
-// }
 
 // tìm kiếm dữ liệu
 func hinddata(w http.ResponseWriter, r *http.Request) {
@@ -150,7 +150,7 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 	var query string
 	var rows *sql.Rows
 	var err error
-
+	count := 0
 	if namehind == "" {
 		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE state LIKE ?"
 		rows, err = conn.Query(query, "%"+statess+"%")
@@ -158,7 +158,7 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE name LIKE ?"
 		rows, err = conn.Query(query, "%"+namehind+"%")
 	} else {
-		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE state LIKE ? AND name LIKE ?"
+		query = "SELECT id, name, email, state, updatetime FROM lienlac WHERE state LIKE ? AND name  LIKE ?"
 		rows, err = conn.Query(query, "%"+statess+"%", "%"+namehind+"%")
 	}
 
@@ -171,6 +171,7 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 	var requestText string = ""
 
 	for rows.Next() {
+		count++
 		var id int
 		var name, state, email, updatetime string
 		// Quét các cột trong hàng hiện tại vào biến
@@ -187,7 +188,9 @@ func hinddata(w http.ResponseWriter, r *http.Request) {
 				</a>
 			</div>`, id, id, name, email, state, updatetime)
 	}
-
+	if count == 0 {
+		requestText += `<a href="add.html">không thấy kết quả bạn có muốn thêm liên lạc?</a>`
+	}
 	fmt.Println(requestText)
 	// Trả về kết quả HTML
 	fmt.Fprint(w, requestText)
@@ -207,6 +210,7 @@ func editUser(w http.ResponseWriter, r *http.Request) {
 	err = conn.QueryRow("SELECT `name`, `address`, `gender`, `company`, `state`, `email`, `phone`, `department`, `position`  FROM lienlac WHERE id = ?", id).Scan(&name, &address, &gender, &company, &state, &email, &phone, &department, &position)
 	if err != nil {
 		http.Error(w, "Không tìm thấy người dùng", http.StatusNotFound)
+		fmt.Fprint(w, "không tìm thấy người dùng")
 		return
 	}
 
@@ -214,15 +218,15 @@ func editUser(w http.ResponseWriter, r *http.Request) {
 	html := `		
 	<input type="hidden" name="id" value="` + id + `">
 	 <label for="name">tên liên lạc</label>
-        <input type="text" name="name" id="name" value="` + name + ` "required>
+        <input type="text" name="name" id="name" maxlength="50" value="` + name + ` "required>
         <label for="address">địa chỉ</label>
-        <input type="text" name="address" id="address" value="` + address + `">
+        <input type="text" name="address" id="address" maxlength="50" value="` + address + `">
         <label for="gender">giới tính</label>
         <input type="radio" name="gender" value="nam" id="gender">nam
         <input type="radio" name="gender" value="nu" id="gender">nữ
         <input type="radio" name="gender" value="other" id="gender"> other
         <label for="company">tên công ty</label>
-        <input type="text" name="company" id="company" value="` + company + `">
+        <input type="text" name="company" id="company" maxlength="50" value="` + company + `">
         <label for="state">trạng thái</label>
         <select name="state" id="state">
             <option value="thụ động">Thụ động</option>
@@ -230,13 +234,13 @@ func editUser(w http.ResponseWriter, r *http.Request) {
             <option value="đã phản hồi">đã phản hồi</option>
         </select>
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="` + email + `">
+        <input type="email" name="email" id="email" maxlength="50" value="` + email + `">
         <label for="phone">điện thoại</label>
-        <input type="tel" name="tel" id="tel"value="` + phone + `">
+        <input type="tel" name="tel" pattern="[0-9]{10}" id="tel"value="` + phone + ` ">
         <label for="department">Phòng ban</label>
-        <input type="text" name="department" id="department"value="` + department + `">
+        <input type="text" name="department" id="department"  maxlength="50" value="` + department + `">
         <label for="position">Chức vụ</label>
-        <input type="text" name="position"id="position"value="` + position + `">	
+        <input type="text" name="position"id="position" maxlength="50" value="` + position + `">	
 		`
 	// Trả về trang HTML
 	w.Header().Set("Content-Type", "text/paint")
