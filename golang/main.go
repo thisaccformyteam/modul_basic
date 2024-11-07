@@ -94,7 +94,7 @@ func fetchData(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Lỗi khi đọc dữ liệu", http.StatusInternalServerError)
 			return
 		}
-		html += fmt.Sprintf(`<div style="display: flex;" > <input type="checkbox" name="del" value="%d"> <a style="display: flex;" href="edit.html?id=%d"><p>%s</p><p>%s</p><p>%s</p><p>%s</p></a></div>`, id, id, name, email, state, updatetime)
+		html += fmt.Sprintf(`<div class="item" > <input type="checkbox" name="del" value="%d"> <a style="display: flex;" href="edit.html?id=%d"><p>%s</p><p>%s</p><p>%s</p><p>%s</p></a></div>`, id, id, name, email, state, updatetime)
 	}
 
 	if rows.Err() != nil {

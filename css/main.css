@@ -1,0 +1,265 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px; /* Giới hạn chiều rộng của form */
+    margin: 0 auto; /* Căn giữa form */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, select {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.submit {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: #45a049;
+}
+
+.error_text {
+    background-color: aqua;
+    color: black;
+    font-size: larger;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+/* index.html */
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.header a {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.header a:hover {
+    background-color: #218838;
+}
+
+
+.del_bnt {
+    padding: 10px 15px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.del_bnt:hover {
+    background-color: #c82333;
+}
+
+
+.truy_van {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.truy_van input,
+.truy_van select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.find_by_name {
+    flex: 1;
+}
+
+.find_by_state {
+    flex: 0.5;
+}
+
+
+
+
+.content div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.content input[type="checkbox"] {
+    margin-right: 10px;
+   
+}
+
+.content a {
+    display: flex;
+    gap: 15px;
+    text-decoration: none;
+    color: #333;
+    flex: 1;
+}
+
+.content p {
+    margin: 0;
+    font-size: 14px;
+    width: 25%;
+}
+.content .item:hover{
+    background-color: #e4cfcf;
+}
+.content.item{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+    cursor: pointer;
+}
+.bottom{
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+.bottom .name{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-left: 1.8em;
+}
+.name p{
+    width: 25%;
+    font-size: 14px;
+    padding: 0;
+}
+
+.loadmore {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.loadmore:hover {
+    background-color: #0056b3;
+}
+/**edit.html*/
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
+
+
+form label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+
+form input[type="radio"] {
+    margin: 0 5px 0 0;
+  
+}
+
+form label[for="gender"] {
+    margin-top: 15px;
+}
+
+
+.sumbit {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.sumbit:hover {
+    background-color: #0056b3;
+}
+
+
+.error_text {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #ffcccc;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+}
