@@ -35,7 +35,7 @@ CREATE TABLE `lienlac` (
   `company` varchar(50) DEFAULT NULL,-- congty 
   `state` varchar(50) NOT NULL,-- trangthai
   `email` varchar(50) DEFAULT NULL, -- Email liên lạc
-  `phone` int(10) DEFAULT NULL,-- sdt
+  `phone` varchar(14) DEFAULT NULL,-- sdt
   `department` varchar(50)  NULL,-- phongban
   `position` varchar(50) DEFAULT NULL,-- chucvu
   `inserttime` date NOT NULL,-- thoigianthem
